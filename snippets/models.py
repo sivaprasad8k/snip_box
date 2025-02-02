@@ -12,7 +12,7 @@ class Tag(models.Model):
 
 
 class Snippet(models.Model):
-    """Snippet model for storing short text notes, each associated with one tag."""
+    """Snippet model for storing short text notes."""
     note = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(null=True)

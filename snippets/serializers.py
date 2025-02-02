@@ -5,6 +5,7 @@ from .models import Tag
 
 
 class SnippetDetailSerializer(serializers.ModelSerializer):
+    """Serializer class for the Snippet model."""
     detail_url = serializers.SerializerMethodField()
 
     class Meta:
@@ -18,15 +19,8 @@ class SnippetDetailSerializer(serializers.ModelSerializer):
         return representation
 
     def get_detail_url(self, obj):
+        """Add Url to get the details of each snippet object"""
         return reverse('snippets', args=[obj.pk], request=self.context.get('request'))
-
-
-class TagSerializer(serializers.ModelSerializer):
-    """ Serializer for the Tag model. Used to validate and serialize tag data. """
-
-    class Meta:
-        model = Tag
-        fields = ['id', 'title']
 
 
 class SnippetSerializer(serializers.ModelSerializer):

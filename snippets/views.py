@@ -1,11 +1,9 @@
 import datetime
-from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 from core.enums import Response
 from core.exceptions import manage_exception, DataFetchFailedException
 from core.functions import generate_response
@@ -14,29 +12,13 @@ from .serializers import SnippetSerializer, SnippetDetailSerializer
 from .service import format_data, get_snippet_data
 
 
-class RegenerateTokenView(APIView):
-    permission_classes = []  # Ensure the user is logged in.
-
-    def post(self, request, *args, **kwargs):
-        user = request.user  # Get the logged-in user
-
-        # If you have username/password, you can regenerate like this:
-        user = User.objects.get(username='sivaprasad')
-
-        # Generate refresh token and access token for the user
-        refresh = RefreshToken.for_user(user)
-
-        # You can return both access and refresh tokens
-        return generate_response(Response.DataFound, {'access': str(refresh.access_token), 'refresh': str(refresh)})
-
-
 @api_view(['GET'])
 def snippet_list(request):
+    """API for listing all snippets with hyperlink to the corresponding details and total count of snippets"""
     snippets = Snippet.objects.all()
-    snippet_count = snippets.count()
     serializer = SnippetDetailSerializer(snippets, many=True)
 
-    return generate_response(Response.DataFound, {"total_snippets": snippet_count, "snippets": serializer.data})
+    return generate_response(Response.DataFound, {"total_snippets": snippets.count(), "snippets": serializer.data})
 
 
 class Snippets(APIView):
@@ -92,7 +74,7 @@ class Snippets(APIView):
         return final_data
 
     def delete(self, request, pk):
-        """ Method for deleting existing Grade """
+        """ Method for deleting existing snippet and return the remaining snippets """
         Snippet.objects.filter(pk=pk).delete()
         result = get_snippet_data({})
 

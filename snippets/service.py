@@ -17,6 +17,7 @@ def format_data(data):
 
 
 def get_snippet_data(filter_condition):
+    """Method for getting snippet data based on filter condition passed"""
     result = Snippet.objects
     if filter_condition:
         result = result.filter(**filter_condition)
