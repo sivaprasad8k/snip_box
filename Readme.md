@@ -67,7 +67,31 @@ pip install -r requirements.txt
 # Run migrations to set up the database:
 python manage.py makemigrations
 python manage.py migrate
-# Start the Server
-# Finally, start the development server:
+````
+### Creating a Superuser
+To access the Django Admin interface and manage users, snippets, and tags, you'll need to create a superuser account. Follow these steps:
+
+Run the following command to create a superuser:
+
+```bash
+python manage.py createsuperuser
+# You will be prompted to enter a username, email, and password for the superuser. Make sure to remember the credentials.
+# Example:
+# Username: admin
+# Email: admin@example.com
+# Password: ********
+```
+After creating the superuser, you can log in to the Django Admin interface at:
+
+http://127.0.0.1:8000/admin/
+
+Use the superuser credentials you just created to log in.
+
+Running the Server
+To start the development server, use the following command:
+
+```bash
 python manage.py runserver
 ```
+snipbox will be available at:
+http://127.0.0.1:8000/
