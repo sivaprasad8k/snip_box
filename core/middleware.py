@@ -29,8 +29,8 @@ class ErrorHandlerMiddleware:
             json_string = response.content.decode('utf-8')
             # Convert JSON string to dictionary
             return generate_response(json.loads(json_string).get('detail'))
-
-        elif 200 < status_code < 500:
+        # When loading admin page redirection will happen so the 302 status code will be skipped
+        elif status_code != 302 and 200 < status_code < 500:
             return generate_response(status_code)
 
         elif status_code == 500:
