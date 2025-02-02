@@ -1,13 +1,7 @@
 from rest_framework import serializers
-
-from core.functions import change_date_format
-from .models import Snippet, Tag
-
-from rest_framework import serializers
 from rest_framework.reverse import reverse
 from .models import Snippet
-
-
+from .models import Tag
 
 
 class SnippetDetailSerializer(serializers.ModelSerializer):
@@ -15,18 +9,12 @@ class SnippetDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Snippet
-        fields = ['id', 'note', 'created_at', 'updated_at', 'detail_url']
+        fields = ['note', 'detail_url']
 
     def to_representation(self, instance):
-        # Add a custom field (e.g., snippet_age) based on the created_at field
+        """Add Tite to the response"""
         representation = super().to_representation(instance)
-
-        created_at = instance.created_at
-        if created_at:
-            # Calculate the snippet's age in a human-readable format
-            representation['title'] = Tag.objects.get(id=instance.tag_id).title
-            representation['created_at'] = change_date_format(representation['created_at'])
-            representation['updated_at'] = change_date_format(representation['updated_at'])
+        representation['title'] = Tag.objects.get(id=instance.tag_id).title
         return representation
 
     def get_detail_url(self, obj):
