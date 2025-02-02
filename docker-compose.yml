@@ -8,6 +8,6 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=True
-      - SECRET_KEY=your_secret_key_here
+      - SECRET_KEY=django-insecure-cd=_*5^%8npx7&!nn(fxov)m!tz%c%_92=ym7*cp=rzkgc&=bs
       - DJANGO_SETTINGS_MODULE=snipbox.settings
 
